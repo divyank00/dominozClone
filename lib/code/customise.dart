@@ -30,10 +30,9 @@ class Customise {
 
   String def_size = sizes.elementAt(1);
 
+  List<String> crusts;
 
-  static List<String> crusts = <String>['New Hand Tossed', 'Wheat Thin Crust', 'Cheese Burst','Fresh Pan Pizza','Classic Hand Tossed'];
-
-  String def_crust=crusts.elementAt(0);
+  String def_crust;
 
   static List<String> Smallcrusts = <String>[
     'New Hand Tossed',
@@ -62,6 +61,8 @@ class Customise {
   ];
   List<int> Largeprices;
 
+  List<int> prices;
+
   String path,name, desc;
 
   int price;
@@ -70,8 +71,6 @@ class Customise {
   static int Smallcheese = 50;
   static int Mediumcheese = 75;
   static int Largecheese = 95;
-
-  Map<String, bool> crust = new Map<String, bool>();
 
   Map<String, bool> topping = new Map<String, bool>();
 
@@ -83,11 +82,8 @@ class Customise {
 
     cheese=false;
 
-    crust.putIfAbsent('New Hand Tossed', ()=>false);
-    crust.putIfAbsent('Wheat Thin Crust', ()=>false);
-    crust.putIfAbsent('Cheese Burst', ()=>false);
-    crust.putIfAbsent('Fresh Pan Pizza', ()=>false);
-    crust.putIfAbsent('Classic Hand Tossed', ()=>false);
+    crusts=Mediumcrusts;
+    def_crust=Mediumcrusts.elementAt(0);
 
     topping.putIfAbsent("Onion", () => false);
     topping.putIfAbsent("Fresh Tomato", () => false);
@@ -127,5 +123,6 @@ class Customise {
         Largeprices=[595,445,494,435,450];
         break;
     }
+    prices=Mediumprices;
   }
 }

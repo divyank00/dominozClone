@@ -20,6 +20,7 @@ class _Customize extends State<Customize> {
   int cheesePrice = Customise.Mediumcheese;
   Customise _customz;
   Pizza _pizza;
+  String crust;
 
   Color smallC = Colors.transparent,
       mediumC = Colors.blue.shade800,
@@ -27,15 +28,36 @@ class _Customize extends State<Customize> {
   Color smallCF = Colors.black,
       mediumCF = Colors.blue.shade800,
       largeCF = Colors.black;
-  Color NHT = Colors.blue.shade800,
-      CB = Colors.transparent,
-      FPP = Colors.transparent,
-      CHT = Colors.transparent,
-      WTC = Colors.transparent;
+  List<Color> border = [
+    Colors.blue.shade800,
+    Colors.transparent,
+    Colors.transparent,
+    Colors.transparent,
+    Colors.transparent
+  ];
+  List<Color> font = [
+    Colors.blue.shade800,
+    Colors.black,
+    Colors.black,
+    Colors.black,
+    Colors.black
+  ];
+
+//  Color NHT = Colors.blue.shade800,
+//      CB = Colors.transparent,
+//      FPP = Colors.transparent,
+//      CHT = Colors.transparent,
+//      WTC = Colors.transparent;
+//  Color NHTF = Colors.blue.shade800,
+//      CBF = Colors.black,
+//      FPPF = Colors.black,
+//      CHTF = Colors.black,
+//      WTCF = Colors.black;
 
   _Customize(Pizza pizza) {
     _pizza = pizza;
     _customz = new Customise(pizza);
+    crust = _customz.def_crust;
   }
 
   @override
@@ -462,11 +484,16 @@ class _Customize extends State<Customize> {
     return Container(
       padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
       child: FlatButton(
-        onPressed: () {},
+        onPressed: () {
+          setState(() {
+            _customz.price = _customz.prices.elementAt(position);
+            changeCrust(position);
+          });
+        },
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(2),
             side: BorderSide(
-              color: mediumC,
+              color: border.elementAt(position),
             )
         ),
         padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
@@ -479,22 +506,23 @@ class _Customize extends State<Customize> {
               margin: EdgeInsets.only(
                   left: 5),
               child: Text(
-                Customise.crusts[0],
+                _customz.crusts.elementAt(position),
                 style: TextStyle(
                   fontSize: 13,
-                  fontWeight: FontWeight.w400,),
+                  fontWeight: FontWeight.w400,
+                  color: font.elementAt(position),
+                ),
               ),
             ),
             Container(
               color: Colors.grey.shade300,
               padding: EdgeInsets.all(3),
-              margin:
-              EdgeInsets.only(top: 5, left: 5),
-              child: Text(
-                '₹ 199',
+              margin: EdgeInsets.only(top: 5, left: 5),
+              child: Text('₹ ${_customz.prices.elementAt(position)}',
                 style: TextStyle(
                   fontWeight: FontWeight.w400,
                   fontSize: 12,
+                  color: font.elementAt(position),
                 ),
               ),
             )
@@ -559,9 +587,16 @@ class _Customize extends State<Customize> {
   void changeSize(int position) {
     setState(() {
       _customz.def_size = Customise.sizes.elementAt(position);
+      _customz.cheese = false;
+      _customz.topping.forEach((String str, bool val) {
+        if (val == true) {
+          _customz.topping.update(str, (bool val) {
+            return false;
+          });
+        }
+      });
       switch (_customz.def_size) {
         case 'Small':
-          _customz.cheese = false;
           smallC = Colors.blue.shade800;
           mediumC = Colors.transparent;
           largeC = Colors.transparent;
@@ -570,16 +605,11 @@ class _Customize extends State<Customize> {
           largeCF = Colors.black;
           _customz.price = _customz.Smallprices.elementAt(0);
           cheesePrice = Customise.Smallcheese;
-          _customz.topping.forEach((String str, bool val) {
-            if (val == true) {
-              _customz.topping.update(str, (bool val) {
-                return false;
-              });
-            }
-          });
+
+          _customz.crusts = Customise.Smallcrusts;
+          _customz.prices = _customz.Smallprices;
           break;
         case 'Medium':
-          _customz.cheese = false;
           smallC = Colors.transparent;
           mediumC = Colors.blue.shade800;
           largeC = Colors.transparent;
@@ -588,16 +618,11 @@ class _Customize extends State<Customize> {
           largeCF = Colors.black;
           _customz.price = _customz.Mediumprices.elementAt(0);
           cheesePrice = Customise.Mediumcheese;
-          _customz.topping.forEach((String str, bool val) {
-            if (val == true) {
-              _customz.topping.update(str, (bool val) {
-                return false;
-              });
-            }
-          });
+
+          _customz.crusts = Customise.Mediumcrusts;
+          _customz.prices = _customz.Mediumprices;
           break;
         case 'Large':
-          _customz.cheese = false;
           smallC = Colors.transparent;
           mediumC = Colors.transparent;
           largeC = Colors.blue.shade800;
@@ -606,13 +631,277 @@ class _Customize extends State<Customize> {
           largeCF = Colors.blue.shade800;
           _customz.price = _customz.Largeprices.elementAt(0);
           cheesePrice = Customise.Largecheese;
-          _customz.topping.forEach((String str, bool val) {
-            if (val == true) {
-              _customz.topping.update(str, (bool val) {
-                return false;
-              });
-            }
+
+          _customz.crusts = Customise.Largecrusts;
+          _customz.prices = _customz.Largeprices;
+          break;
+      }
+    });
+  }
+
+  void changeCrust(int position) {
+    setState(() {
+      _customz.def_crust = _customz.crusts.elementAt(position);
+      _customz.cheese = false;
+      _customz.topping.forEach((String str, bool val) {
+        if (val == true) {
+          _customz.topping.update(str, (bool val) {
+            return false;
           });
+        }
+      });
+      switch (_customz.def_size) {
+        case 'Small':
+          switch (_customz.def_crust) {
+            case 'New Hand Tossed':
+              border = [
+                Colors.blue.shade800,
+                Colors.transparent,
+                Colors.transparent,
+                Colors.transparent,
+                Colors.transparent
+              ];
+              font = [
+                Colors.blue.shade800,
+                Colors.black,
+                Colors.black,
+                Colors.black,
+                Colors.black
+              ];
+              break;
+            case 'Cheese Burst':
+              border = [
+                Colors.transparent,
+                Colors.blue.shade800,
+                Colors.transparent,
+                Colors.transparent,
+                Colors.transparent
+              ];
+              font = [
+                Colors.black,
+                Colors.blue.shade800,
+                Colors.black,
+                Colors.black,
+                Colors.black
+              ];
+              break;
+            case 'Fresh Pan Pizza':
+              border = [
+                Colors.transparent,
+                Colors.transparent,
+                Colors.blue.shade800,
+                Colors.transparent,
+                Colors.transparent
+              ];
+              font = [
+                Colors.black,
+                Colors.black,
+                Colors.blue.shade800,
+                Colors.black,
+                Colors.black
+              ];
+              break;
+            case 'Classic Hand Tossed':
+              border = [
+                Colors.transparent,
+                Colors.transparent,
+                Colors.transparent,
+                Colors.blue.shade800,
+                Colors.transparent
+              ];
+              font = [
+                Colors.black,
+                Colors.black,
+                Colors.black,
+                Colors.blue.shade800,
+                Colors.black
+              ];
+              break;
+            case 'Wheat Thin Crust':
+              border = [
+                Colors.transparent,
+                Colors.transparent,
+                Colors.transparent,
+                Colors.transparent,
+                Colors.blue.shade800,
+              ];
+              font = [
+                Colors.black,
+                Colors.black,
+                Colors.black,
+                Colors.black,
+                Colors.blue.shade800,
+              ];
+              break;
+          }
+          break;
+        case 'Medium':
+          switch (_customz.def_crust) {
+            case 'New Hand Tossed':
+              border = [
+                Colors.blue.shade800,
+                Colors.transparent,
+                Colors.transparent,
+                Colors.transparent,
+                Colors.transparent
+              ];
+              font = [
+                Colors.blue.shade800,
+                Colors.black,
+                Colors.black,
+                Colors.black,
+                Colors.black
+              ];
+              break;
+            case 'Wheat Thin Crust':
+              border = [
+                Colors.transparent,
+                Colors.blue.shade800,
+                Colors.transparent,
+                Colors.transparent,
+                Colors.transparent
+              ];
+              font = [
+                Colors.black,
+                Colors.blue.shade800,
+                Colors.black,
+                Colors.black,
+                Colors.black
+              ];
+              break;
+            case 'Cheese Burst':
+              border = [
+                Colors.transparent,
+                Colors.transparent,
+                Colors.blue.shade800,
+                Colors.transparent,
+                Colors.transparent
+              ];
+              font = [
+                Colors.black,
+                Colors.black,
+                Colors.blue.shade800,
+                Colors.black,
+                Colors.black
+              ];
+              break;
+            case 'Fresh Pan Pizza':
+              border = [
+                Colors.transparent,
+                Colors.transparent,
+                Colors.transparent,
+                Colors.blue.shade800,
+                Colors.transparent
+              ];
+              font = [
+                Colors.black,
+                Colors.black,
+                Colors.black,
+                Colors.blue.shade800,
+                Colors.black
+              ];
+              break;
+            case 'Classic Hand Tossed':
+              border = [
+                Colors.transparent,
+                Colors.transparent,
+                Colors.transparent,
+                Colors.transparent,
+                Colors.blue.shade800,
+              ];
+              font = [
+                Colors.black,
+                Colors.black,
+                Colors.black,
+                Colors.black,
+                Colors.blue.shade800,
+              ];
+              break;
+          }
+          break;
+        case 'Large':
+          switch (_customz.def_crust) {
+            case 'New Hand Tossed':
+              border = [
+                Colors.blue.shade800,
+                Colors.transparent,
+                Colors.transparent,
+                Colors.transparent,
+                Colors.transparent
+              ];
+              font = [
+                Colors.blue.shade800,
+                Colors.black,
+                Colors.black,
+                Colors.black,
+                Colors.black
+              ];
+              break;
+            case 'Classic Hand Tossed':
+              border = [
+                Colors.transparent,
+                Colors.blue.shade800,
+                Colors.transparent,
+                Colors.transparent,
+                Colors.transparent
+              ];
+              font = [
+                Colors.black,
+                Colors.blue.shade800,
+                Colors.black,
+                Colors.black,
+                Colors.black
+              ];
+              break;
+            case 'Fresh Pan Pizza':
+              border = [
+                Colors.transparent,
+                Colors.transparent,
+                Colors.blue.shade800,
+                Colors.transparent,
+                Colors.transparent
+              ];
+              font = [
+                Colors.black,
+                Colors.black,
+                Colors.blue.shade800,
+                Colors.black,
+                Colors.black
+              ];
+              break;
+            case 'Cheese Burst':
+              border = [
+                Colors.transparent,
+                Colors.transparent,
+                Colors.transparent,
+                Colors.blue.shade800,
+                Colors.transparent
+              ];
+              font = [
+                Colors.black,
+                Colors.black,
+                Colors.black,
+                Colors.blue.shade800,
+                Colors.black
+              ];
+              break;
+            case 'Wheat Thin Crust':
+              border = [
+                Colors.transparent,
+                Colors.transparent,
+                Colors.transparent,
+                Colors.transparent,
+                Colors.blue.shade800,
+              ];
+              font = [
+                Colors.black,
+                Colors.black,
+                Colors.black,
+                Colors.black,
+                Colors.blue.shade800,
+              ];
+              break;
+          }
           break;
       }
     });
