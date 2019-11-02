@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pizza_delivery/code/customise.dart';
+import 'package:pizza_delivery/code/orderList.dart';
 import 'package:pizza_delivery/code/pizza.dart';
 
 class Customize extends StatefulWidget {
@@ -12,7 +13,7 @@ class Customize extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return new _Customize(pizza);
+    return _Customize(pizza);
   }
 }
 
@@ -21,6 +22,8 @@ class _Customize extends State<Customize> {
   Customise _customz;
   Pizza _pizza;
   String crust;
+
+  List<bool> allowed;
 
   Color smallC = Colors.transparent,
       mediumC = Colors.blue.shade800,
@@ -43,21 +46,11 @@ class _Customize extends State<Customize> {
     Colors.black
   ];
 
-//  Color NHT = Colors.blue.shade800,
-//      CB = Colors.transparent,
-//      FPP = Colors.transparent,
-//      CHT = Colors.transparent,
-//      WTC = Colors.transparent;
-//  Color NHTF = Colors.blue.shade800,
-//      CBF = Colors.black,
-//      FPPF = Colors.black,
-//      CHTF = Colors.black,
-//      WTCF = Colors.black;
-
   _Customize(Pizza pizza) {
     _pizza = pizza;
     _customz = new Customise(pizza);
     crust = _customz.def_crust;
+    allowed = [true, true, true, true, false];
   }
 
   @override
@@ -151,12 +144,14 @@ class _Customize extends State<Customize> {
                                 child: Row(
                                   children: <Widget>[
                                     FlatButton(
+                                      highlightColor: Colors.blue.shade200
+                                          .withOpacity(0.3),
                                       onPressed: () {
                                         changeSize(0);
                                       },
                                       shape: RoundedRectangleBorder(
                                           borderRadius: BorderRadius.circular(
-                                              2),
+                                              4),
                                           side: BorderSide(
                                             color: smallC,
                                           )
@@ -208,12 +203,14 @@ class _Customize extends State<Customize> {
                                       width: 10,
                                     ),
                                     FlatButton(
+                                      highlightColor: Colors.blue.shade200
+                                          .withOpacity(0.3),
                                       onPressed: () {
                                         changeSize(1);
                                       },
                                       shape: RoundedRectangleBorder(
                                           borderRadius: BorderRadius.circular(
-                                              2),
+                                              4),
                                           side: BorderSide(
                                             color: mediumC,
                                           )
@@ -265,12 +262,14 @@ class _Customize extends State<Customize> {
                                       width: 10,
                                     ),
                                     FlatButton(
+                                      highlightColor: Colors.blue.shade200
+                                          .withOpacity(0.3),
                                       onPressed: () {
                                         changeSize(2);
                                       },
                                       shape: RoundedRectangleBorder(
                                           borderRadius: BorderRadius.circular(
-                                              2),
+                                              4),
                                           side: BorderSide(
                                             color: largeC,
                                           )
@@ -292,7 +291,7 @@ class _Customize extends State<Customize> {
                                                 margin: EdgeInsets.only(
                                                     left: 5),
                                                 child: Text(
-                                                  Customise.sizes[0],
+                                                  Customise.sizes[2],
                                                   style: TextStyle(
                                                       fontWeight: FontWeight
                                                           .w600,
@@ -442,13 +441,75 @@ class _Customize extends State<Customize> {
                               itemCount: Customise.toppings.length,
                             ),
                           ),
-                          SizedBox(height: 20,)
+                          SizedBox(height: 10,)
                         ],
                       )),
-                )
+                ),
+                SizedBox(height: 60,)
               ],
             )),
       ),
+        bottomSheet: Container(
+          color: Colors.blue.shade800,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Row(
+                children: <Widget>[
+                  Container(
+                      padding: EdgeInsets.fromLTRB(10, 0, 5, 0),
+                      child: Text(
+                        '1 item',
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      )
+                  ),
+                  Container(
+                    height: 12,
+                    width: 2,
+                    color: Colors.blue.shade400,
+                  ),
+                  Container(
+                      padding: EdgeInsets.fromLTRB(8, 0, 0, 0),
+                      child: Text(
+                        '₹ ${_customz.price}',
+                        style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w700
+                        ),
+                      )
+                  ),
+                ],
+              ),
+              Container(
+                margin: EdgeInsets.only(right: 10),
+                child: OutlineButton(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(4)
+                  ),
+                  padding: EdgeInsets.only(left: 5, right: 5),
+                  borderSide: BorderSide(
+                    color: Colors.white,
+                  ),
+                  onPressed: () {
+                    orderList.add(_customz);
+                    debugPrint(orderList.size().toString());
+                    Navigator.pop(context);
+                  },
+                  child: Text(
+                    'ADD TO CART',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 14,
+                    ),
+                  ),
+                ),
+              )
+            ],
+          ),
+        )
     );
   }
 
@@ -483,50 +544,58 @@ class _Customize extends State<Customize> {
   Widget crustBuild(BuildContext context, int position) {
     return Container(
       padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
-      child: FlatButton(
-        onPressed: () {
-          setState(() {
-            _customz.price = _customz.prices.elementAt(position);
-            changeCrust(position);
-          });
-        },
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(2),
-            side: BorderSide(
-              color: border.elementAt(position),
-            )
-        ),
-        padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
-        color: Colors.grey.shade100,
-        child: Column(
-          crossAxisAlignment:
-          CrossAxisAlignment.start,
-          children: <Widget>[
-            Container(
-              margin: EdgeInsets.only(
-                  left: 5),
-              child: Text(
-                _customz.crusts.elementAt(position),
-                style: TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w400,
-                  color: font.elementAt(position),
+      child: Opacity(
+        opacity: allowed.elementAt(position) ? 1 : 0.3,
+        child: FlatButton(
+          onPressed: () {
+            setState(() {
+              allowed.elementAt(position) ?
+              _customz.price = _customz.prices.elementAt(position) : null;
+              allowed.elementAt(position) ? changeCrust(position) : null;
+            });
+          },
+          splashColor: allowed.elementAt(position) ? Colors.white : Colors
+              .transparent,
+          highlightColor: allowed.elementAt(position) ? Colors.blue.shade200
+              .withOpacity(0.3) : Colors.transparent,
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(4),
+              side: BorderSide(
+                color: border.elementAt(position),
+              )
+          ),
+          padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
+          color: Colors.grey.shade100,
+          child: Column(
+            crossAxisAlignment:
+            CrossAxisAlignment.start,
+            children: <Widget>[
+              Container(
+                margin: EdgeInsets.only(
+                    left: 5),
+                child: Text(
+                  _customz.crusts.elementAt(position),
+                  style: TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w400,
+                    color: font.elementAt(position),
+                  ),
                 ),
               ),
-            ),
-            Container(
-              color: Colors.grey.shade300,
-              padding: EdgeInsets.all(3),
-              margin: EdgeInsets.only(top: 5, left: 5),
-              child: Text('₹ ${_customz.prices.elementAt(position)}',
-                style: TextStyle(
-                  fontWeight: FontWeight.w400,
-                  fontSize: 12,
-                  color: font.elementAt(position),
+              Container(
+                color: Colors.grey.shade300,
+                padding: EdgeInsets.all(3),
+                margin: EdgeInsets.only(top: 5, left: 5),
+                child: Text('₹ ${_customz.prices.elementAt(position)}',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w400,
+                    fontSize: 12,
+                    color: font.elementAt(position),
+                  ),
                 ),
-              ),
-            )
-          ],
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -608,6 +677,23 @@ class _Customize extends State<Customize> {
 
           _customz.crusts = Customise.Smallcrusts;
           _customz.prices = _customz.Smallprices;
+
+          border = [
+            Colors.blue.shade800,
+            Colors.transparent,
+            Colors.transparent,
+            Colors.transparent,
+            Colors.transparent
+          ];
+          font = [
+            Colors.blue.shade800,
+            Colors.black,
+            Colors.black,
+            Colors.black,
+            Colors.black
+          ];
+
+          allowed = [true, true, true, true, false];
           break;
         case 'Medium':
           smallC = Colors.transparent;
@@ -621,6 +707,24 @@ class _Customize extends State<Customize> {
 
           _customz.crusts = Customise.Mediumcrusts;
           _customz.prices = _customz.Mediumprices;
+
+          border = [
+            Colors.blue.shade800,
+            Colors.transparent,
+            Colors.transparent,
+            Colors.transparent,
+            Colors.transparent
+          ];
+          font = [
+            Colors.blue.shade800,
+            Colors.black,
+            Colors.black,
+            Colors.black,
+            Colors.black
+          ];
+
+          allowed = [true, true, true, true, false];
+
           break;
         case 'Large':
           smallC = Colors.transparent;
@@ -634,6 +738,24 @@ class _Customize extends State<Customize> {
 
           _customz.crusts = Customise.Largecrusts;
           _customz.prices = _customz.Largeprices;
+
+          border = [
+            Colors.blue.shade800,
+            Colors.transparent,
+            Colors.transparent,
+            Colors.transparent,
+            Colors.transparent
+          ];
+          font = [
+            Colors.blue.shade800,
+            Colors.black,
+            Colors.black,
+            Colors.black,
+            Colors.black
+          ];
+
+          allowed = [true, false, false, false, false];
+
           break;
       }
     });

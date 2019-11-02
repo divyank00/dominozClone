@@ -57,6 +57,10 @@ flutter:
     - images/toppingsTomato.jpg
     - images/toppingsMushroom.jpg
     - images/paneerTikka.jpg
+    - images/medium.png
+    - images/small1.png
+    - images/small2.png
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

@@ -1,14 +1,23 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:pizza_delivery/code/orderList.dart';
 import 'package:pizza_delivery/code/pizza.dart';
 import 'package:pizza_delivery/screens/customize.dart';
 
-class Home extends StatelessWidget {
+import 'order.dart';
 
+class Home extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    getData();
+    return _home();
+  }
+}
+
+class _home extends State<Home> {
   @override
   Widget build(BuildContext context) {
-    getData();
     return Scaffold(
         appBar: AppBar(
           title: Text('Explore'),
@@ -16,27 +25,79 @@ class Home extends StatelessWidget {
         ),
         body: Center(
           child: Container(
-            padding: EdgeInsets.all(5.0),
+            padding: orderList.size()==0?EdgeInsets.fromLTRB(3,3,3,0):EdgeInsets.fromLTRB(3, 3, 3, 48),
             child: ListView.builder(
-              itemBuilder: (context,position){
-                return cardBuild(context,getData().elementAt(position),position);
+              itemBuilder: (context, position) {
+                return cardBuild(
+                    context, getData().elementAt(position), position);
               },
               itemCount: getData().length,
             ),
           ),
-        ));
+        ),
+        bottomSheet: orderList.size()==0?null:Container(
+          color: Colors.lightGreen.shade700,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Row(
+                children: <Widget>[
+                  Container(
+                      padding: EdgeInsets.fromLTRB(10, 0, 5, 0),
+                      child: Text(
+                        'Cart : ${orderList.size()} Items',
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      )
+                  ),
+                ],
+              ),
+              Container(
+                margin: EdgeInsets.only(right: 10),
+                child: OutlineButton(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(4)
+                  ),
+                  padding: EdgeInsets.only(left: 5, right: 5),
+                  borderSide: BorderSide(
+                    color: Colors.white,
+                  ),
+                  onPressed: () {
+                    debugPrint(orderList.size().toString());
+                    Navigator.push(
+                        context, MaterialPageRoute(builder: (context) {
+                      return Order();
+                    }));
+                  },
+                  child: Text(
+                    'VIEW CART',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 14,
+                    ),
+                  ),
+                ),
+              )
+            ],
+          ),
+        )
+    );
   }
 
-  Widget cardBuild(BuildContext context,Pizza pizza,int position){
+  Widget cardBuild(BuildContext context, Pizza pizza, int position) {
     return Card(
-      elevation: 5,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(4),
+      ),
+      elevation: 4,
       child: InkWell(
         splashColor: Colors.blue.withAlpha(30),
         onTap: () {
           Navigator.push(context, MaterialPageRoute(
-            builder: (context){
-              return Customize(getData().elementAt(position));
-            }
+              builder: (context) {
+                return Customize(getData().elementAt(position));
+              }
           ));
         },
         child: Column(
@@ -62,7 +123,8 @@ class Home extends StatelessWidget {
                           '₹ ${pizza.price}',
                           style: TextStyle(
                               fontSize: 23,
-                              backgroundColor: Colors.transparent.withOpacity(0.05),
+                              backgroundColor: Colors.transparent.withOpacity(
+                                  0.05),
                               color: Colors.white,
                               fontWeight: FontWeight.w700),
                         ),
@@ -79,9 +141,11 @@ class Home extends StatelessWidget {
                                   EdgeInsets.fromLTRB(10, 0, 5, 0),
                                   onPressed: () {
                                     Navigator.push(context, MaterialPageRoute(
-                                        builder: (context){
-                                      return Customize(getData().elementAt(position));
-                                    }));},
+                                        builder: (context) {
+                                          return Customize(
+                                              getData().elementAt(position));
+                                        }));
+                                  },
                                   child: Row(
                                     children: <Widget>[
                                       Text(
@@ -132,6 +196,7 @@ class Home extends StatelessWidget {
       ),
     );
   }
+}
 
   List getData(){
     return[
@@ -166,4 +231,4 @@ class Home extends StatelessWidget {
       ),
     ];
   }
-}
+
