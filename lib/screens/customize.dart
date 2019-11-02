@@ -70,6 +70,8 @@ class _Customize extends State<Customize> {
     }
     else {
       _customz = customise;
+
+
       changeColorsS();
       changeColorsC();
         if (_customz.cheese == true) {
@@ -716,6 +718,7 @@ class _Customize extends State<Customize> {
   void changeSize(int position) {
     setState(() {
       _customz.def_size = Customise.sizes.elementAt(position);
+      _customz.def_crust=_customz.crusts.elementAt(0);
       _customz.cheese = false;
       _customz.topping.forEach((String str, bool val) {
         if (val == true) {
@@ -774,6 +777,8 @@ class _Customize extends State<Customize> {
         ];
 
         allowed = [true, true, true, true, false];
+
+
         break;
       case 'Medium':
         smallC = Colors.transparent;
@@ -802,6 +807,8 @@ class _Customize extends State<Customize> {
           Colors.black,
           Colors.black
         ];
+
+
 
         allowed = [true, true, true, true, false];
 
@@ -859,6 +866,7 @@ class _Customize extends State<Customize> {
               Colors.black,
               Colors.black
             ];
+            _customz.price=_customz.prices.elementAt(0);
             break;
           case 'Cheese Burst':
             border = [
@@ -875,6 +883,7 @@ class _Customize extends State<Customize> {
               Colors.black,
               Colors.black
             ];
+            _customz.price=_customz.prices.elementAt(1);
             break;
           case 'Fresh Pan Pizza':
             border = [
@@ -891,6 +900,7 @@ class _Customize extends State<Customize> {
               Colors.black,
               Colors.black
             ];
+            _customz.price=_customz.prices.elementAt(2);
             break;
           case 'Classic Hand Tossed':
             border = [
@@ -907,6 +917,7 @@ class _Customize extends State<Customize> {
               Colors.blue.shade800,
               Colors.black
             ];
+            _customz.price=_customz.prices.elementAt(3);
             break;
           case 'Wheat Thin Crust':
             border = [
@@ -923,6 +934,7 @@ class _Customize extends State<Customize> {
               Colors.black,
               Colors.blue.shade800,
             ];
+            _customz.price=_customz.prices.elementAt(4);
             break;
         }
         break;
@@ -943,6 +955,7 @@ class _Customize extends State<Customize> {
               Colors.black,
               Colors.black
             ];
+            _customz.price=_customz.prices.elementAt(0);
             break;
           case 'Wheat Thin Crust':
             border = [
@@ -959,6 +972,7 @@ class _Customize extends State<Customize> {
               Colors.black,
               Colors.black
             ];
+            _customz.price=_customz.prices.elementAt(1);
             break;
           case 'Cheese Burst':
             border = [
@@ -975,6 +989,7 @@ class _Customize extends State<Customize> {
               Colors.black,
               Colors.black
             ];
+            _customz.price=_customz.prices.elementAt(2);
             break;
           case 'Fresh Pan Pizza':
             border = [
@@ -991,6 +1006,7 @@ class _Customize extends State<Customize> {
               Colors.blue.shade800,
               Colors.black
             ];
+            _customz.price=_customz.prices.elementAt(3);
             break;
           case 'Classic Hand Tossed':
             border = [
@@ -1007,6 +1023,7 @@ class _Customize extends State<Customize> {
               Colors.black,
               Colors.blue.shade800,
             ];
+            _customz.price=_customz.prices.elementAt(4);
             break;
         }
         break;
@@ -1027,6 +1044,7 @@ class _Customize extends State<Customize> {
               Colors.black,
               Colors.black
             ];
+            _customz.price=_customz.prices.elementAt(0);
             break;
           case 'Classic Hand Tossed':
             border = [
@@ -1043,6 +1061,7 @@ class _Customize extends State<Customize> {
               Colors.black,
               Colors.black
             ];
+            _customz.price=_customz.prices.elementAt(1);
             break;
           case 'Fresh Pan Pizza':
             border = [
@@ -1059,6 +1078,7 @@ class _Customize extends State<Customize> {
               Colors.black,
               Colors.black
             ];
+            _customz.price=_customz.prices.elementAt(2);
             break;
           case 'Cheese Burst':
             border = [
@@ -1075,6 +1095,7 @@ class _Customize extends State<Customize> {
               Colors.blue.shade800,
               Colors.black
             ];
+            _customz.price=_customz.prices.elementAt(3);
             break;
           case 'Wheat Thin Crust':
             border = [
@@ -1091,6 +1112,7 @@ class _Customize extends State<Customize> {
               Colors.black,
               Colors.blue.shade800,
             ];
+            _customz.price=_customz.prices.elementAt(4);
             break;
         }
         break;

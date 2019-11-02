@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:pizza_delivery/code/customise.dart';
 import 'package:pizza_delivery/code/orderList.dart';
-import 'package:pizza_delivery/screens/home.dart';
 
 import 'customize.dart';
 
@@ -105,104 +105,232 @@ class _order extends State<Order> {
                 return Customize.named(_list.elementAt(position), position);
               }));
             },
-            child: Image(
-              width: 150,
-              height: 100,
-              image: AssetImage(_list
-                  .elementAt(position)
-                  .path),
-              fit: BoxFit.cover,
-            ),
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Container(
-                padding: EdgeInsets.fromLTRB(0, 10, 0, 5),
-                child: Text(
-                  '${_list
-                      .elementAt(position)
-                      .name}',
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 15
+            child: Stack(
+              children: <Widget>[
+                Positioned(
+                  child: Image(
+                    width: 150,
+                    height: 120,
+                    image: AssetImage(_list
+                        .elementAt(position)
+                        .path),
+                    fit: BoxFit.cover,
                   ),
                 ),
-              ),
-//              Wrap(
-//                crossAxisAlignment: WrapCrossAlignment.start,
-//                children: <Widget>[
-//                  Text(
-//                      '${_list
-//                          .elementAt(position)
-//                          .desc}',overflow: TextOverflow.visible,
-//                      style: TextStyle(
-//                      )
-//                  ),
-//                ],
-//              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  Container(
-                    child: Text(
-                        '${_list
-                            .elementAt(position)
-                            .def_size}',
-                        style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 14
+                Positioned(
+                  right: 5,
+                  bottom: 5,
+                  child: Container(
+                    decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.blue.shade400,
                         )
                     ),
-                  ),
-                  SizedBox(width: 10,),
-                  Container(
-                    height: 20,
-                    width: 1,
-                    color: Colors.black,
-                  ),
-                  SizedBox(width: 10,),
-                  Container(
-                    child: Text(
-                        '${_list
-                            .elementAt(position)
-                            .def_crust}',
-                        style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 14
-                        )
+                    child: Icon(
+                      Icons.edit,
+                      color: Colors.blue.shade400,
                     ),
-                  )
-                ],
-              ),
-              SizedBox(height: 10,),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: <Widget>[
-                  Container(
-                    child: Text(
-                      '₹ ${_list
-                          .elementAt(position)
-                          .price}',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
+                  ),
+                )
+              ],
+            ),
+          ),
+          Container(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                  padding: EdgeInsets.fromLTRB(0, 10, 0, 5),
+                  child: Text(
+                    '${_list
+                        .elementAt(position)
+                        .name}',
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 15
+                    ),
+                  ),
+                ),
+                Container(
+                  width: MediaQuery
+                      .of(context)
+                      .size
+                      .width - 190,
+                  child: Row(children: <Widget>[
+                    Flexible(
+                      child: Text(
+                          '${_list
+                              .elementAt(position)
+                              .desc}',
+                          style: TextStyle(
+                              fontWeight: FontWeight.w300
+                          )
                       ),
                     ),
+                  ],
                   ),
-                  IconButton(
-                    icon: Icon(Icons.delete),
-                    onPressed: () {
-                      setState(() {
-                        orderList.delt(position);
-                        if (orderList.size() == 0)
-                          Navigator.pop(context);
-                      });
-                    },
-                  )
-                ],
-              )
-            ],
+                ),
+                SizedBox(height: 5,),
+                Container(
+                  padding: EdgeInsets.only(bottom: 0),
+                  child: Row(
+                    children: <Widget>[
+                      Container(
+                        child: Text(
+                            '${_list
+                                .elementAt(position)
+                                .def_size}',
+                            style: TextStyle(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 14
+                            )
+                        ),
+                      ),
+                      SizedBox(width: 10,),
+                      Container(
+                        height: 20,
+                        width: 1,
+                        color: Colors.black,
+                      ),
+                      SizedBox(width: 10,),
+                      Container(
+                        width: MediaQuery.of(context).size.width-280,
+                        child: Row(
+                          children: <Widget>[
+                            Flexible(
+                              child: Text(
+                                  '${_list
+                                      .elementAt(position)
+                                      .def_crust}',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 14
+                                  )
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                Container(
+                  width: MediaQuery
+                      .of(context)
+                      .size
+                      .width - 180,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Container(
+                        child: Text(
+                          '₹ ${_list
+                              .elementAt(position)
+                              .price}',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                      IconButton(
+                        padding: EdgeInsets.all(0),
+                        icon: Icon(Icons.delete,
+                          size: 30,),
+                        onPressed: () {
+                          setState(() {
+                            showDialog(context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    titlePadding: EdgeInsets.fromLTRB(
+                                        0, 0, 0, 0),
+                                    title: Container(
+                                      padding: EdgeInsets.fromLTRB(
+                                          5, 10, 0, 10),
+                                      color: Colors.blue.shade800,
+                                      child: Text('Remove Item',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ),
+                                    contentPadding: EdgeInsets.fromLTRB(
+                                        12, 15, 12, 0),
+                                    content: Container(
+                                      margin: EdgeInsets.only(bottom: 10),
+                                      child: Text(
+                                        'Are you sure you want to remove this item?',
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                        ),
+                                      ),
+                                    ),
+                                    actions: <Widget>[
+                                      Container(
+                                        height: 30,
+                                        margin: EdgeInsets.only(right: 10),
+                                        padding: EdgeInsets.fromLTRB(
+                                            15, 0, 15, 0),
+                                        decoration: BoxDecoration(
+                                            border: Border.all(
+                                              color: Colors.black,
+                                            )
+                                        ),
+                                        child: FlatButton(
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          }, child: Container(
+                                          child: Text(
+                                            'NO',
+                                            style: TextStyle(
+
+                                            ),
+                                          ),
+                                        ),
+                                        ),
+                                      ),
+                                      Container(
+                                        height: 30,
+                                        padding: EdgeInsets.fromLTRB(
+                                            15, 0, 15, 0),
+                                        decoration: BoxDecoration(
+                                            color: Colors.lightGreen.shade700,
+                                            border: Border.all(
+                                              color: Colors.black,
+                                            )
+                                        ),
+                                        child: FlatButton(
+                                          onPressed: () {
+                                            setState(() {
+                                              orderList.delt(position);
+                                            });
+                                            Navigator.pop(context);
+                                            if (orderList.size() == 0)
+                                              Navigator.pop(context);
+                                          },
+                                          child: Container(
+                                            child: Text(
+                                              'YES',
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  );
+                                });
+                          });
+                        },
+                      )
+                    ],
+                  ),
+                )
+              ],
+            ),
           )
         ],
       ),
