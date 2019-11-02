@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:pizza_delivery/code/customise.dart';
 import 'package:pizza_delivery/code/orderList.dart';
 import 'package:pizza_delivery/code/pizza.dart';
@@ -647,6 +648,9 @@ class _Customize extends State<Customize> {
 
   Widget cardBuild(BuildContext context,int position){
     return Container(
+      decoration: BoxDecoration(
+        color:(_customz.topping[Customise.toppings.elementAt(position)]==true)?Colors.blue.withOpacity(0.15):Colors.transparent,
+      ),
       margin: EdgeInsets.only(left: 5,right: 5),
       child: FlatButton(
         shape: RoundedRectangleBorder(
@@ -668,11 +672,20 @@ class _Customize extends State<Customize> {
           children: <Widget>[
             Stack(
               children: <Widget>[
-                Image(
-                  height: 100,
-                  width: 100,
-                  image: AssetImage(Customise.toppingsPath.elementAt(position)
-                  ),
+                Container(
+                  child: Image.asset(Customise.toppingsPath.elementAt(position),
+                    height: 100,
+                      width: 100,
+                    colorBlendMode: BlendMode.darken,
+                    color:(_customz.topping[Customise.toppings.elementAt(position)]==true)?Colors.blue.withOpacity(0.15):Colors.transparent,
+                  )
+//                  Image(
+//                    height: 100,
+//                    width: 100,
+//                    image: AssetImage(Customise.toppingsPath.elementAt(position),
+//
+//                    ),
+//                  ),
                 ),
                 Positioned(
                   right: 0,
