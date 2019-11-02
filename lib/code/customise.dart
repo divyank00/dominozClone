@@ -80,10 +80,10 @@ class Customise {
     desc=pizza.desc;
     price = pizza.price;
 
-    cheese=false;
+    cheese = false;
 
-    crusts=Mediumcrusts;
-    def_crust=Mediumcrusts.elementAt(0);
+    crusts = Mediumcrusts;
+    def_crust = Mediumcrusts.elementAt(0);
 
     topping.putIfAbsent("Onion", () => false);
     topping.putIfAbsent("Fresh Tomato", () => false);
@@ -98,31 +98,31 @@ class Customise {
 
     switch (name) {
       case 'Margherita':
-        Smallprices = [99,174,129,99,450];
-        Mediumprices=[199,249,298,239,450];
-        Largeprices=[395,249,298,239,450];
+        Smallprices = [99, 174, 129, 99, 450];
+        Mediumprices = [199, 249, 298, 239, 450];
+        Largeprices = [395, 249, 298, 239, 450];
         break;
       case 'Cheese n Corn':
-        Smallprices = [165,240,195,165,450];
-        Mediumprices=[305,355,404,345,450];
-        Largeprices=[495,355,404,345,450];
+        Smallprices = [165, 240, 195, 165, 450];
+        Mediumprices = [305, 355, 404, 345, 450];
+        Largeprices = [495, 355, 404, 345, 450];
         break;
       case 'Cheese n Tomato':
-        Smallprices = [165,240,195,165,450];
-        Mediumprices=[305,355,404,345,450];
-        Largeprices=[495,355,404,345,450];
+        Smallprices = [165, 240, 195, 165, 450];
+        Mediumprices = [305, 355, 404, 345, 450];
+        Largeprices = [495, 355, 404, 345, 450];
         break;
       case 'Farmhouse':
-        Smallprices = [215,290,245,215,450];
-        Mediumprices=[395,445,494,435,450];
-        Largeprices=[595,445,494,435,450];
+        Smallprices = [215, 290, 245, 215, 450];
+        Mediumprices = [395, 445, 494, 435, 450];
+        Largeprices = [595, 445, 494, 435, 450];
         break;
       case 'Peppy Paneer':
-        Smallprices = [215,290,245,215,450];
-        Mediumprices=[395,445,494,435,450];
-        Largeprices=[595,445,494,435,450];
+        Smallprices = [215, 290, 245, 215, 450];
+        Mediumprices = [395, 445, 494, 435, 450];
+        Largeprices = [595, 445, 494, 435, 450];
         break;
     }
-    prices=Mediumprices;
+    prices = Mediumprices;
   }
 }
