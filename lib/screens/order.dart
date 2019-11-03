@@ -17,6 +17,7 @@ class Order extends StatefulWidget {
 class _order extends State<Order> {
   List<Customise> _list;
   int price;
+
   _order() {
     price = 0;
     _list = orderList.give();

@@ -68,6 +68,7 @@ class Customise {
   int price;
 
   bool cheese;
+  
   static int Smallcheese = 50;
   static int Mediumcheese = 75;
   static int Largecheese = 95;
@@ -124,5 +125,57 @@ class Customise {
         break;
     }
     prices = Mediumprices;
+  }
+
+  Customise.custom(Customise customise) {
+    path=customise.path;
+    name=customise.name;
+    desc=customise.desc;
+    price = customise.price;
+
+    cheese = customise.cheese;
+    
+    def_size=customise.def_size;
+
+    crusts = customise.crusts;
+
+    def_crust = customise.def_crust;
+    
+    topping.addAll(customise.topping);
+    
+    Smallprices=customise.Smallprices;
+    Mediumprices=customise.Mediumprices;
+    Largeprices=customise.Largeprices;
+
+    prices=customise.prices;
+    
+    switch (customise.name) {
+      case 'Margherita':
+        Smallprices = customise.Smallprices;
+        Mediumprices = customise.Mediumprices;
+        Largeprices = customise.Largeprices;
+        break;
+      case 'Cheese n Corn':
+        Smallprices = customise.Smallprices;
+        Mediumprices = customise.Mediumprices;
+        Largeprices = customise.Largeprices;
+        break;
+      case 'Cheese n Tomato':
+        Smallprices = customise.Smallprices;
+        Mediumprices = customise.Mediumprices;
+        Largeprices = customise.Largeprices;
+        break;
+      case 'Farmhouse':
+        Smallprices = customise.Smallprices;
+        Mediumprices = customise.Mediumprices;
+        Largeprices = customise.Largeprices;
+        break;
+      case 'Peppy Paneer':
+        Smallprices = customise.Smallprices;
+        Mediumprices = customise.Mediumprices;
+        Largeprices = customise.Largeprices;
+        break;
+    }
+    prices = customise.prices;
   }
 }

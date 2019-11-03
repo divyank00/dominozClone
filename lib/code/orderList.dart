@@ -8,12 +8,11 @@ class orderList{
   static int prc;
 
   static void add(Customise _customz){
-    if (!_list.contains(_customz)) {
       _list.add(_customz);
-    }
-    else {
-      debugPrint("NO");
-    }
+  }
+  static void addat(Customise _customz,int position){
+      _list.insert(position, _customz);
+
   }
   static int size(){
     return _list.length;
