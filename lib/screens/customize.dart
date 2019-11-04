@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:pizza_delivery/code/customise.dart';
@@ -184,58 +183,15 @@ class _Customize extends State<Customize> {
     );
   }
 
-//  bool _showAppbar = true; //this is to show app bar
   ScrollController _scrollController = new ScrollController();
-//  bool isScrollingDown = false;
-//  bool _show = true;
 
   bool toppingsShow = false;
-
-  @override
-  void initState() {
-    super.initState();
-//    myScroll();
-  }
-
-  @override
-  void dispose() {
-    _scrollController.removeListener(() {});
-    super.dispose();
-  }
-
-//  void myScroll() async {
-//    _scrollController.addListener(() {
-//      if (_scrollController.position.userScrollDirection ==
-//          ScrollDirection.reverse) {
-//        if (!isScrollingDown) {
-//          isScrollingDown = true;
-//          _showAppbar = false;
-//        }
-//      }
-//      if (_scrollController.position.userScrollDirection ==
-//          ScrollDirection.forward) {
-//        if (isScrollingDown) {
-//          isScrollingDown = false;
-//          _showAppbar = true;
-//        }
-//      }
-//    });
-//  }
 
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: flag ? null : _onWillPop,
       child: Scaffold(
-//          appBar:
-//          _showAppbar ?
-//          AppBar(
-//            title: Text('My Tasks'),
-//          ),
-//              : PreferredSize(
-//            child: Container(),
-//            preferredSize: Size(0.0, 0.0),
-//          ),
           body: SingleChildScrollView(
             controller: _scrollController,
             child: SafeArea(
