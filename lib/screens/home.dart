@@ -15,25 +15,73 @@ class Home extends StatefulWidget {
   }
 }
 
-class _home extends State<Home> {
+class _home extends State<Home> with SingleTickerProviderStateMixin {
+  TabController controller;
+
+  @override
+  void initState() {
+    super.initState();
+    controller = new TabController(length: 2, vsync: this);
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text('Explore'),
-          backgroundColor: Colors.blue.shade800,
-        ),
-        body: Center(
-          child: Container(
-            padding: orderList.size()==0?EdgeInsets.fromLTRB(3,3,3,0):EdgeInsets.fromLTRB(3, 3, 3, 48),
-            child: ListView.builder(
-              itemBuilder: (context, position) {
-                return cardBuild(
-                    context, getData().elementAt(position), position);
-              },
-              itemCount: getData().length,
-            ),
-          ),
+        body: NestedScrollView(
+            headerSliverBuilder: (context, bool flag) {
+              return <Widget>[
+                SliverAppBar(
+                  snap: true,
+                  pinned: true,
+                  floating: true,
+                  title: Text('Explore'),
+                  backgroundColor: Colors.blue.shade800,
+                  bottom: TabBar(
+//                    isScrollable: true,
+                    controller: controller,
+                    labelColor: Colors.white,
+                    unselectedLabelColor: Colors.grey.shade400,
+                    indicatorColor: Colors.lightGreen.shade700,
+                    tabs: [
+                      Tab(text: 'VEG PIZZA'),
+                      Tab(text: 'NON-VEG PIZZA'),
+                    ],
+                  ),
+                ),
+              ];
+            },
+
+            body: TabBarView(
+              controller: controller,
+              children: <Widget>[
+                Container(
+                  child: MediaQuery.removePadding(
+                    removeTop: true,
+                    context: context,
+                    child: Padding(
+                      padding: orderList.size() == 0
+                          ? EdgeInsets.fromLTRB(3, 3, 3, 0)
+                          : EdgeInsets.fromLTRB(3, 3, 3, 48),
+                      child: ListView.builder(
+                        itemBuilder: (context, index) =>
+                            cardBuild(context,
+                                getData().elementAt(index),
+                                index),
+                        itemCount: getData().length,
+
+                      ),
+                    ),
+                  ),
+                ),
+
+                Text('Non-VEG'),
+              ],
+            )
         ),
         bottomSheet: orderList.size()==0?null:Container(
           color: Colors.lightGreen.shade700,
@@ -88,7 +136,7 @@ class _home extends State<Home> {
   Widget cardBuild(BuildContext context, Pizza pizza, int position) {
     return Card(
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(4),
+        borderRadius: BorderRadius.circular(5),
       ),
       elevation: 4,
       child: InkWell(
@@ -109,6 +157,9 @@ class _home extends State<Home> {
                     height: 125.0,
                   ),
                   decoration: BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(5),
+                        topRight: Radius.circular(5)),
                     image: DecorationImage(
                       image: AssetImage(pizza.path),
                       fit: BoxFit.cover,
