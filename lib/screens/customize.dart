@@ -193,14 +193,12 @@ class _Customize extends State<Customize> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
 //    myScroll();
   }
 
   @override
   void dispose() {
-    // TODO: implement dispose
     _scrollController.removeListener(() {});
     super.dispose();
   }
