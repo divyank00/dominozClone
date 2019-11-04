@@ -57,6 +57,8 @@ class _home extends State<Home> with SingleTickerProviderStateMixin {
                     labelColor: Colors.white,
                     unselectedLabelColor: Colors.grey.shade400,
                     indicatorColor: Colors.lightGreen.shade700,
+                    indicatorSize: TabBarIndicatorSize.tab,
+                    indicatorWeight: 2.5,
                     tabs: [
                       Tab(text: 'VEG PIZZA'),
                       Tab(text: 'NON-VEG PIZZA'),
