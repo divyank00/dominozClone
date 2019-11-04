@@ -49,6 +49,13 @@ flutter:
     - images/farmhouse.png
     - images/margherita.jpg
     - images/peppypaneer.png
+
+    - images/Chicken_Sausage.png
+    - images/PepperBarbequeChickenC.jpg
+    - images/PepperBarbequeOnionC.jpg
+    - images/cheesepepperoni.png
+    - images/Non-Veg-Supreme.jpg
+
     - images/toppingsCapsicum.jpg
     - images/toppingsGoldenCorn.jpg
     - images/toppingsJalapeno.jpg
@@ -59,9 +66,12 @@ flutter:
     - images/toppingsTomato.jpg
     - images/toppingsMushroom.jpg
     - images/paneerTikka.jpg
-    - images/medium.png
-    - images/small1.png
-    - images/small2.png
+    - images/toppingsBarbeque.jpg
+    - images/toppingsPeriPeriChicken.jpg
+    - images/toppingsGrilledChickenRasher.jpg
+    - images/toppingsChickenSausage.jpg
+    - images/toppingsChickenTikka.jpg
+
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

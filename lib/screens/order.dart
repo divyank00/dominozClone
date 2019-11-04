@@ -97,9 +97,10 @@ class _order extends State<Order> {
     return Card(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           FlatButton(
+
             padding: EdgeInsets.only(left: 10, top: 10, bottom: 10, right: 10),
             onPressed: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) {

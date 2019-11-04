@@ -37,6 +37,8 @@ class _Customize extends State<Customize> {
   List<Color> border;
   List<Color> font;
 
+  int VT, NVT;
+
   String str='ADD TO CART';
   bool flag=true;
 
@@ -46,6 +48,8 @@ class _Customize extends State<Customize> {
     if (customise == null) {
       _customz = new Customise(pizza);
       crust = _customz.def_crust;
+      VT = 60;
+      NVT = 75;
       allowed = [true, true, true, true, false];
       smallC = Colors.transparent;
       mediumC = Colors.blue.shade800;
@@ -82,11 +86,42 @@ class _Customize extends State<Customize> {
         else
           _customz.price += Customise.Largecheese;
       }
-      _customz.topping.forEach((String str, bool val) {
-        if (val == true) {
-          _customz.price+=60;
-        }
-      });
+      if (_customz.def_size == 'Small') {
+        _customz.toppingV.forEach((String str, bool val) {
+          if (val == true) {
+            _customz.price += Customise.SmallTP[0];
+          }
+        });
+        _customz.toppingNV.forEach((String str, bool val) {
+          if (val == true) {
+            _customz.price += Customise.SmallTP[1];
+          }
+        });
+      }
+      if (_customz.def_size == 'Medium') {
+        _customz.toppingV.forEach((String str, bool val) {
+          if (val == true) {
+            _customz.price += Customise.MediumTP[0];
+          }
+        });
+        _customz.toppingNV.forEach((String str, bool val) {
+          if (val == true) {
+            _customz.price += Customise.MediumTP[1];
+          }
+        });
+      }
+      if (_customz.def_size == 'Large') {
+        _customz.toppingV.forEach((String str, bool val) {
+          if (val == true) {
+            _customz.price += Customise.LargeTP[0];
+          }
+        });
+        _customz.toppingNV.forEach((String str, bool val) {
+          if (val == true) {
+            _customz.price += Customise.LargeTP[1];
+          }
+        });
+      }
       str='UPDATE CART';
       flag=false;
       this.position=position;
@@ -187,8 +222,21 @@ class _Customize extends State<Customize> {
 
   bool toppingsShow = false;
 
+  String AllTstr;
+
   @override
   Widget build(BuildContext context) {
+    AllTstr = '';
+    int i;
+    if (_customz.AllT.length > 0) {
+      for (i = 0; i < _customz.AllT.length - 1; i++) {
+        AllTstr = '$AllTstr'
+            '${_customz.AllT[i]}'
+            ', ';
+      }
+      AllTstr = '$AllTstr'
+          '${_customz.AllT[i]}';
+    }
     return WillPopScope(
       onWillPop: flag ? null : _onWillPop,
       child: Scaffold(
@@ -535,14 +583,25 @@ class _Customize extends State<Customize> {
                           FlatButton(
                             onPressed: () {
                               setState(() {
-                                _customz.topping.forEach((String str,
+                                _customz.toppingV.forEach((String str,
                                     bool val) {
                                   if (val == true) {
-                                    _customz.topping.update(str, (bool val) {
+                                    _customz.toppingV.update(str, (bool val) {
                                       return false;
                                     });
+                                    _customz.price -= VT;
                                   }
                                 });
+                                _customz.toppingNV.forEach((String str,
+                                    bool val) {
+                                  if (val == true) {
+                                    _customz.toppingNV.update(str, (bool val) {
+                                      return false;
+                                    });
+                                    _customz.price -= NVT;
+                                  }
+                                });
+                                _customz.AllT = [];
                               });
                             },
                             child: Text(
@@ -594,15 +653,27 @@ class _Customize extends State<Customize> {
                                               ))
                                       ),
                                       Container(
-                                          alignment: Alignment.topLeft,
-                                          padding: EdgeInsets.only(
-                                              left: 15, top: 5),
-                                          child: Text(
-                                              'You can add more toppings',
-                                              style: TextStyle(
-                                                fontSize: 13,
-                                                fontWeight: FontWeight.w400,
-                                              ))
+                                        width: MediaQuery
+                                            .of(context)
+                                            .size
+                                            .width * 0.8,
+                                        alignment: Alignment.topLeft,
+                                        padding: EdgeInsets.only(
+                                            left: 15, top: 5),
+                                        child: _customz.AllT.length == 0 ? Text(
+                                            'You can add more toppings',
+                                            style: TextStyle(
+                                              fontSize: 13,
+                                              fontWeight: FontWeight.w400,
+                                            )
+                                        ) :
+                                        Text('$AllTstr',
+                                          style: TextStyle(
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.w400,
+                                            color: Colors.blue.shade800,
+                                          ),
+                                        ),
                                       ),
                                       SizedBox(
                                         height: 10,
@@ -627,7 +698,7 @@ class _Customize extends State<Customize> {
                                   alignment: Alignment.topLeft,
                                   margin: EdgeInsets.only(left: 15, top: 15),
                                   child: Text(
-                                    'Add Veg Toppings @ ₹60.00 each',
+                                    'Add Veg Toppings @ ₹ $VT.00 each',
                                     style: TextStyle(
                                       fontWeight: FontWeight.w500,
                                     ),
@@ -643,7 +714,7 @@ class _Customize extends State<Customize> {
                                     itemBuilder: (context, position) {
                                       return cardBuildV(context, position);
                                     },
-                                    itemCount: Customise.toppings.length,
+                                    itemCount: Customise.toppingsV.length,
                                   ),
                                 ),
                                 SizedBox(height: 15,),
@@ -651,7 +722,7 @@ class _Customize extends State<Customize> {
                                   alignment: Alignment.topLeft,
                                   margin: EdgeInsets.only(left: 15, top: 15),
                                   child: Text(
-                                    'Add Non-Veg Toppings @ ₹60.00 each',
+                                    'Add Non-Veg Toppings @ ₹ $NVT.00 each',
                                     style: TextStyle(
                                       fontWeight: FontWeight.w500,
                                     ),
@@ -667,7 +738,7 @@ class _Customize extends State<Customize> {
                                     itemBuilder: (context, position) {
                                       return cardBuildNV(context, position);
                                     },
-                                    itemCount: Customise.toppings.length,
+                                    itemCount: Customise.toppingsNV.length,
                                   ),
                                 ),
                                 SizedBox(height: 10,)
@@ -845,23 +916,29 @@ class _Customize extends State<Customize> {
   Widget cardBuildV(BuildContext context, int position) {
     return Container(
       decoration: BoxDecoration(
-        color:(_customz.topping[Customise.toppings.elementAt(position)]==true)?Colors.blue.withOpacity(0.15):Colors.transparent,
+        color: (_customz.toppingV[Customise.toppingsV.elementAt(position)] ==
+            true) ? Colors.blue.withOpacity(0.15) : Colors.transparent,
       ),
       margin: EdgeInsets.only(left: 5,right: 5),
       child: FlatButton(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(2),
         ), onPressed: () {
-        if (_customz.topping.values.elementAt(position) == true) {
+        if (_customz.toppingV.values.elementAt(position) == true) {
           setState(() {
-            _customz.topping[Customise.toppings.elementAt(position)] = false;
-            _customz.price -= 60;
+            _customz.toppingV[Customise.toppingsV.elementAt(position)] = false;
+            _customz.price -= VT;
+            _customz.AllT.removeWhere((String val) {
+              return val.compareTo(Customise.toppingsV.elementAt(position)) ==
+                  0;
+            });
           });
         }
         else
           setState(() {
-            _customz.topping[Customise.toppings.elementAt(position)] = true;
-            _customz.price += 60;
+            _customz.toppingV[Customise.toppingsV.elementAt(position)] = true;
+            _customz.price += VT;
+            _customz.AllT.add(Customise.toppingsV.elementAt(position));
           });
       },
         child: Column(
@@ -869,25 +946,22 @@ class _Customize extends State<Customize> {
             Stack(
               children: <Widget>[
                 Container(
-                  child: Image.asset(Customise.toppingsPath.elementAt(position),
+                    child: Image.asset(
+                      Customise.toppingsPathV.elementAt(position),
                     height: 100,
                       width: 100,
                     colorBlendMode: BlendMode.darken,
-                    color:(_customz.topping[Customise.toppings.elementAt(position)]==true)?Colors.blue.withOpacity(0.15):Colors.transparent,
+                      color: (_customz.toppingV[Customise.toppingsV.elementAt(
+                          position)] == true)
+                          ? Colors.blue.withOpacity(0.15)
+                          : Colors.transparent,
                   )
-//                  Image(
-//                    height: 100,
-//                    width: 100,
-//                    image: AssetImage(Customise.toppingsPath.elementAt(position),
-//
-//                    ),
-//                  ),
                 ),
                 Positioned(
                   right: 0,
                   top: 0,
                   child: Checkbox(
-                    value: _customz.topping.values.elementAt(position),
+                    value: _customz.toppingV.values.elementAt(position),
                     onChanged: (bool value) {
 
                     },
@@ -897,7 +971,7 @@ class _Customize extends State<Customize> {
             ),
             Container(
               padding: EdgeInsets.only(top: 10),
-              child: Text(Customise.toppings.elementAt(position),
+              child: Text(Customise.toppingsV.elementAt(position),
                 style: TextStyle(
                     fontWeight: FontWeight.w400,
                     fontSize: 11
@@ -912,7 +986,7 @@ class _Customize extends State<Customize> {
   Widget cardBuildNV(BuildContext context, int position) {
     return Container(
       decoration: BoxDecoration(
-        color: (_customz.topping[Customise.toppings.elementAt(position)] ==
+        color: (_customz.toppingNV[Customise.toppingsNV.elementAt(position)] ==
             true) ? Colors.blue.withOpacity(0.15) : Colors.transparent,
       ),
       margin: EdgeInsets.only(left: 5, right: 5),
@@ -920,16 +994,22 @@ class _Customize extends State<Customize> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(2),
         ), onPressed: () {
-        if (_customz.topping.values.elementAt(position) == true) {
+        if (_customz.toppingNV.values.elementAt(position) == true) {
           setState(() {
-            _customz.topping[Customise.toppings.elementAt(position)] = false;
-            _customz.price -= 60;
+            _customz.toppingNV[Customise.toppingsNV.elementAt(position)] =
+            false;
+            _customz.price -= NVT;
+            _customz.AllT.removeWhere((String val) {
+              return val.compareTo(Customise.toppingsNV.elementAt(position)) ==
+                  0;
+            });
           });
         }
         else
           setState(() {
-            _customz.topping[Customise.toppings.elementAt(position)] = true;
-            _customz.price += 60;
+            _customz.toppingNV[Customise.toppingsNV.elementAt(position)] = true;
+            _customz.price += NVT;
+            _customz.AllT.add(Customise.toppingsNV.elementAt(position));
           });
       },
         child: Column(
@@ -938,11 +1018,11 @@ class _Customize extends State<Customize> {
               children: <Widget>[
                 Container(
                     child: Image.asset(
-                      Customise.toppingsPath.elementAt(position),
+                      Customise.toppingsPathNV.elementAt(position),
                       height: 100,
                       width: 100,
                       colorBlendMode: BlendMode.darken,
-                      color: (_customz.topping[Customise.toppings.elementAt(
+                      color: (_customz.toppingNV[Customise.toppingsNV.elementAt(
                           position)] == true)
                           ? Colors.blue.withOpacity(0.15)
                           : Colors.transparent,
@@ -959,7 +1039,7 @@ class _Customize extends State<Customize> {
                   right: 0,
                   top: 0,
                   child: Checkbox(
-                    value: _customz.topping.values.elementAt(position),
+                    value: _customz.toppingNV.values.elementAt(position),
                     onChanged: (bool value) {
 
                     },
@@ -969,7 +1049,7 @@ class _Customize extends State<Customize> {
             ),
             Container(
               padding: EdgeInsets.only(top: 10),
-              child: Text(Customise.toppings.elementAt(position),
+              child: Text(Customise.toppingsNV.elementAt(position),
                 style: TextStyle(
                     fontWeight: FontWeight.w400,
                     fontSize: 11
@@ -986,9 +1066,16 @@ class _Customize extends State<Customize> {
       _customz.def_size = Customise.sizes.elementAt(position);
       _customz.def_crust=_customz.crusts.elementAt(0);
       _customz.cheese = false;
-      _customz.topping.forEach((String str, bool val) {
+      _customz.toppingV.forEach((String str, bool val) {
         if (val == true) {
-          _customz.topping.update(str, (bool val) {
+          _customz.toppingV.update(str, (bool val) {
+            return false;
+          });
+        }
+      });
+      _customz.toppingNV.forEach((String str, bool val) {
+        if (val == true) {
+          _customz.toppingNV.update(str, (bool val) {
             return false;
           });
         }
@@ -1001,9 +1088,16 @@ class _Customize extends State<Customize> {
     setState(() {
       _customz.def_crust = _customz.crusts.elementAt(position);
       _customz.cheese = false;
-      _customz.topping.forEach((String str, bool val) {
+      _customz.toppingV.forEach((String str, bool val) {
         if (val == true) {
-          _customz.topping.update(str, (bool val) {
+          _customz.toppingV.update(str, (bool val) {
+            return false;
+          });
+        }
+      });
+      _customz.toppingNV.forEach((String str, bool val) {
+        if (val == true) {
+          _customz.toppingNV.update(str, (bool val) {
             return false;
           });
         }
@@ -1015,6 +1109,8 @@ class _Customize extends State<Customize> {
   void changeColorsS() {
     switch (_customz.def_size) {
       case 'Small':
+        VT = Customise.SmallTP[0];
+        NVT = Customise.SmallTP[1];
         smallC = Colors.blue.shade800;
         mediumC = Colors.transparent;
         largeC = Colors.transparent;
@@ -1047,6 +1143,8 @@ class _Customize extends State<Customize> {
 
         break;
       case 'Medium':
+        VT = Customise.MediumTP[0];
+        NVT = Customise.MediumTP[1];
         smallC = Colors.transparent;
         mediumC = Colors.blue.shade800;
         largeC = Colors.transparent;
@@ -1075,11 +1173,12 @@ class _Customize extends State<Customize> {
         ];
 
 
-
         allowed = [true, true, true, true, false];
 
         break;
       case 'Large':
+        VT = Customise.LargeTP[0];
+        NVT = Customise.LargeTP[1];
         smallC = Colors.transparent;
         mediumC = Colors.transparent;
         largeC = Colors.blue.shade800;
