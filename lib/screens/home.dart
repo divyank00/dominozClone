@@ -37,6 +37,15 @@ class _home extends State<Home> with SingleTickerProviderStateMixin {
             headerSliverBuilder: (context, bool flag) {
               return <Widget>[
                 SliverAppBar(
+                  actions: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.only(right: 10),
+                      child: IconButton(
+                        icon: Icon(Icons.search),
+                        onPressed: (){},
+                      ),
+                    ),
+                  ],
                   snap: true,
                   pinned: true,
                   floating: true,
