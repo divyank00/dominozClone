@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -628,7 +630,14 @@ class _Customize extends State<Customize> {
                                 setState(() {
                                   if (toppingsShow == false) {
                                     toppingsShow = true;
-                                    _scrollController.animateTo(380, duration: Duration(seconds: 1), curve: Curves.fastOutSlowIn);
+                                    Future.delayed(
+                                        Duration(milliseconds: 50), () {
+                                      _scrollController.animateTo(
+                                          _scrollController.position
+                                              .maxScrollExtent,
+                                          duration: Duration(seconds: 1),
+                                          curve: Curves.fastOutSlowIn);
+                                    });
                                   }
                                   else
                                     toppingsShow = false;
@@ -818,7 +827,7 @@ class _Customize extends State<Customize> {
     orderList.add(_customz);
     Navigator.pop(context);
   }
-  
+
   void update(){
     orderList.delt(position);
     orderList.addat(_customz, position);
@@ -948,14 +957,14 @@ class _Customize extends State<Customize> {
                 Container(
                     child: Image.asset(
                       Customise.toppingsPathV.elementAt(position),
-                    height: 100,
+                      height: 100,
                       width: 100,
-                    colorBlendMode: BlendMode.darken,
+                      colorBlendMode: BlendMode.darken,
                       color: (_customz.toppingV[Customise.toppingsV.elementAt(
                           position)] == true)
                           ? Colors.blue.withOpacity(0.15)
                           : Colors.transparent,
-                  )
+                    )
                 ),
                 Positioned(
                   right: 0,
@@ -1483,5 +1492,5 @@ class _Customize extends State<Customize> {
         break;
     }
   }
-  
+
 }
