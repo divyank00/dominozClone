@@ -853,9 +853,14 @@ class _Customize extends State<Customize> {
                   child: Container(
                     color: Colors.blue.shade800,
                     child: ListTile(
-                      leading: Icon(Icons.arrow_back,
+                      leading: IconButton(
+                          icon: Icon(Icons.arrow_back,
                         color: Colors.white,
                         size: 30,
+                          ),
+                          onPressed: () {
+                            flag ? Navigator.pop(context) : _onWillPop();
+                          }
                       ),
                       trailing: Icon(Icons.flag,
                         color: Colors.white,
