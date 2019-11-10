@@ -226,6 +226,22 @@ class _Customize extends State<Customize> {
 
   String AllTstr;
 
+  double opac = 0;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _scrollController.addListener(() {
+      setState(() {
+        opac = _scrollController.position.pixels / 381.9047619047618;
+        if (opac > 1) {
+          opac = 0;
+        }
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     AllTstr = '';
@@ -242,524 +258,572 @@ class _Customize extends State<Customize> {
     return WillPopScope(
       onWillPop: flag ? null : _onWillPop,
       child: Scaffold(
-          body: SingleChildScrollView(
-            controller: _scrollController,
-            child: SafeArea(
-              child: Column(
-                children: <Widget>[
-                  Container(
-                    constraints: BoxConstraints.expand(
-                      height: 200.0,
-                    ),
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage(_customz.path),
-                        fit: BoxFit.fill,
-                      ),
-                    ),
-                    child: Stack(
-                      children: <Widget>[
-                        Positioned(
-                          top: 5,
-                          left: 5,
-                          child: IconButton(
-                            icon: Icon(Icons.arrow_back),
-                            color: Colors.white,
-                            iconSize: 30,
-                            onPressed: () {
-                              flag ? Navigator.pop(context) : _onWillPop();
-                            },
+          body: Stack(
+            children: <Widget>[
+              SingleChildScrollView(
+                controller: _scrollController,
+                child: SafeArea(
+                  child: Column(
+                    children: <Widget>[
+                      Container(
+                        constraints: BoxConstraints.expand(
+                          height: 200.0,
+                        ),
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage(_customz.path),
+                            fit: BoxFit.fill,
                           ),
                         ),
-                        Positioned(
-                          left: 10.0,
-                          bottom: 10.0,
-                          child: Text(
-                            '₹ ${_customz.price}',
-                            style: TextStyle(
-                                fontSize: 23,
-                                backgroundColor: Colors.transparent
-                                    .withOpacity(
-                                    0.05),
-                                color: Colors.white,
-                                fontWeight: FontWeight.w700),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                      alignment: Alignment.topLeft,
-                      padding: EdgeInsets.fromLTRB(5, 0, 5, 20),
-                      child: Card(
-                        elevation: 5,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                        child: Stack(
                           children: <Widget>[
-                            Container(
-                              padding: EdgeInsets.fromLTRB(10, 10, 0, 0),
-                              child: Text(
-                                _customz.name,
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                            ),
-                            Container(
-                                padding: EdgeInsets.fromLTRB(10, 10, 0, 0),
-                                child: Text(
-                                  _customz.desc,
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w300),
-                                )),
-                            SizedBox(
-                              height: 40,
-                            ),
-                            Container(
-                              padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
-                              child: Text(
-                                'Select Size',
-                                style: TextStyle(color: Colors.grey.shade600),
-                              ),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Container(
-                                padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
-                                child: SingleChildScrollView(
-                                  scrollDirection: Axis.horizontal,
-                                  child: Row(
-                                    children: <Widget>[
-                                      FlatButton(
-                                        highlightColor: Colors.blue.shade200
-                                            .withOpacity(0.3),
-                                        onPressed: () {
-                                          changeSize(0);
-                                        },
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius
-                                                .circular(
-                                                4),
-                                            side: BorderSide(
-                                              color: smallC,
-                                            )
-                                        ),
-                                        padding: EdgeInsets.fromLTRB(
-                                            10, 10, 10, 10),
-                                        color: Colors.grey.shade100,
-                                        child: Row(
-                                          children: <Widget>[
-                                            Icon(Icons.local_pizza,
-                                              color: smallCF,
-                                              size: 30,
-                                            ),
-                                            Column(
-                                              crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                              children: <Widget>[
-                                                Container(
-                                                  margin: EdgeInsets.only(
-                                                      left: 5),
-                                                  child: Text(
-                                                    Customise.sizes[0],
-                                                    style: TextStyle(
-                                                        fontWeight: FontWeight
-                                                            .w600,
-                                                        color: smallCF
-                                                    ),
-                                                  ),
-                                                ),
-                                                Container(
-                                                  margin: EdgeInsets.only(
-                                                      left: 5, top: 1),
-                                                  child: Text(
-                                                    'Serves 1',
-                                                    style: TextStyle(
-                                                        fontWeight: FontWeight
-                                                            .w300,
-                                                        color: smallCF,
-                                                        fontSize: 12
-                                                    ),
-                                                  ),
-                                                )
-                                              ],
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: 10,
-                                      ),
-                                      FlatButton(
-                                        highlightColor: Colors.blue.shade200
-                                            .withOpacity(0.3),
-                                        onPressed: () {
-                                          changeSize(1);
-                                        },
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius
-                                                .circular(
-                                                4),
-                                            side: BorderSide(
-                                              color: mediumC,
-                                            )
-                                        ),
-                                        padding: EdgeInsets.fromLTRB(
-                                            10, 10, 10, 10),
-                                        color: Colors.grey.shade100,
-                                        child: Row(
-                                          children: <Widget>[
-                                            Icon(Icons.local_pizza,
-                                              color: mediumCF,
-                                              size: 30,
-                                            ),
-                                            Column(
-                                              crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                              children: <Widget>[
-                                                Container(
-                                                  margin: EdgeInsets.only(
-                                                      left: 5),
-                                                  child: Text(
-                                                    Customise.sizes[1],
-                                                    style: TextStyle(
-                                                        fontWeight: FontWeight
-                                                            .w600,
-                                                        color: mediumCF
-                                                    ),
-                                                  ),
-                                                ),
-                                                Container(
-                                                  margin: EdgeInsets.only(
-                                                      left: 5, top: 1),
-                                                  child: Text(
-                                                    'Serves 2',
-                                                    style: TextStyle(
-                                                        fontWeight: FontWeight
-                                                            .w300,
-                                                        color: mediumCF,
-                                                        fontSize: 12
-                                                    ),
-                                                  ),
-                                                )
-                                              ],
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: 10,
-                                      ),
-                                      FlatButton(
-                                        highlightColor: Colors.blue.shade200
-                                            .withOpacity(0.3),
-                                        onPressed: () {
-                                          changeSize(2);
-                                        },
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius
-                                                .circular(
-                                                4),
-                                            side: BorderSide(
-                                              color: largeC,
-                                            )
-                                        ),
-                                        padding: EdgeInsets.fromLTRB(
-                                            10, 10, 10, 10),
-                                        color: Colors.grey.shade100,
-                                        child: Row(
-                                          children: <Widget>[
-                                            Icon(Icons.local_pizza,
-                                              color: largeCF,
-                                              size: 30,
-                                            ),
-                                            Column(
-                                              crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                              children: <Widget>[
-                                                Container(
-                                                  margin: EdgeInsets.only(
-                                                      left: 5),
-                                                  child: Text(
-                                                    Customise.sizes[2],
-                                                    style: TextStyle(
-                                                        fontWeight: FontWeight
-                                                            .w600,
-                                                        color: largeCF
-                                                    ),
-                                                  ),
-                                                ),
-                                                Container(
-                                                  margin: EdgeInsets.only(
-                                                      left: 5, top: 1),
-                                                  child: Text(
-                                                    'Serves 4',
-                                                    style: TextStyle(
-                                                        fontWeight: FontWeight
-                                                            .w300,
-                                                        color: largeCF,
-                                                        fontSize: 12
-                                                    ),
-                                                  ),
-                                                )
-                                              ],
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                )),
-                            SizedBox(
-                              height: 40,
-                            ),
-                            Container(
-                              padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
-                              child: Text(
-                                'Select Crust',
-                                style: TextStyle(color: Colors.grey.shade600),
-                              ),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Container(
-                              padding: EdgeInsets.only(left: 5, right: 5),
-                              height: 55,
-                              child: ListView.builder(
-                                scrollDirection: Axis.horizontal,
-                                itemBuilder: (context, position) {
-                                  return crustBuild(context, position);
+                            Positioned(
+                              top: 5,
+                              left: 6,
+                              child: IconButton(
+                                icon: Icon(Icons.arrow_back),
+                                color: Colors.white,
+                                iconSize: 30,
+                                onPressed: () {
+                                  flag ? Navigator.pop(context) : _onWillPop();
                                 },
-                                itemCount: 5,
                               ),
                             ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                cheeseAdd(!_customz.cheese);
-                              },
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: Colors.grey.shade200,
-                                  borderRadius: BorderRadius.circular(4),
-                                ),
-                                margin: EdgeInsets.fromLTRB(10, 0, 10, 10),
-                                child: Row(
-                                  children: <Widget>[
-                                    Checkbox(
-                                        value: _customz.cheese,
-                                        onChanged: (bool value) {
-                                          cheeseAdd(value);
-                                        }
-                                    ),
-                                    Text(
-                                      'Add Extra Cheese @ ₹$cheesePrice',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    )
-                                  ],
-                                ),
+                            Positioned(
+                              top: 5,
+                              right: 6,
+                              child: IconButton(
+                                icon: Icon(Icons.flag),
+                                color: Colors.white,
+                                iconSize: 30,
+                                onPressed: () {},
                               ),
-                            )
+                            ),
+                            Positioned(
+                              left: 10.0,
+                              bottom: 10.0,
+                              child: Text(
+                                '₹ ${_customz.price}',
+                                style: TextStyle(
+                                    fontSize: 23,
+                                    backgroundColor: Colors.transparent
+                                        .withOpacity(
+                                        0.05),
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w700),
+                              ),
+                            ),
                           ],
                         ),
-                      )),
-                  Container(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Container(
-                            child: Text(
-                              'Toppings',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 18),
-                            ),
-                            margin: EdgeInsets.only(left: 10),
-                          ),
-                          FlatButton(
-                            onPressed: () {
-                              setState(() {
-                                _customz.toppingV.forEach((String str,
-                                    bool val) {
-                                  if (val == true) {
-                                    _customz.toppingV.update(str, (bool val) {
-                                      return false;
-                                    });
-                                    _customz.price -= VT;
-                                  }
-                                });
-                                _customz.toppingNV.forEach((String str,
-                                    bool val) {
-                                  if (val == true) {
-                                    _customz.toppingNV.update(str, (bool val) {
-                                      return false;
-                                    });
-                                    _customz.price -= NVT;
-                                  }
-                                });
-                                _customz.AllT = [];
-                              });
-                            },
-                            child: Text(
-                              'RESET',
-                              style: TextStyle(
-                                color: Colors.blue.shade800,
-                              ),
-                            ),
-                          )
-                        ],
-                      )),
-                  Container(
-                    alignment: Alignment.topLeft,
-                    padding: EdgeInsets.fromLTRB(5, 0, 5, 10),
-                    child: Card(
-                        elevation: 5,
-                        child: Column(
-                          children: <Widget>[
-                            FlatButton(
-                              highlightColor: Colors.transparent,
-                              splashColor: Colors.transparent,
-                              padding: EdgeInsets.only(left: 0),
-                              onPressed: () {
-                                setState(() {
-                                  if (toppingsShow == false) {
-                                    toppingsShow = true;
-                                    Future.delayed(
-                                        Duration(milliseconds: 50), () {
-                                      _scrollController.animateTo(
-                                          _scrollController.position
-                                              .maxScrollExtent,
-                                          duration: Duration(seconds: 1),
-                                          curve: Curves.fastOutSlowIn);
-                                    });
-                                  }
-                                  else
-                                    toppingsShow = false;
-                                });
-                              },
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment
-                                    .spaceBetween,
-                                children: <Widget>[
-                                  Column(
-                                    crossAxisAlignment: CrossAxisAlignment
-                                        .start,
-                                    children: <Widget>[
-                                      Container(
-                                          alignment: Alignment.topLeft,
-                                          padding: EdgeInsets.only(
-                                              left: 15, top: 15),
-                                          child: Text('Add Toppings',
-                                              style: TextStyle(
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.bold,
-                                              ))
-                                      ),
-                                      Container(
-                                        width: MediaQuery
-                                            .of(context)
-                                            .size
-                                            .width * 0.8,
-                                        alignment: Alignment.topLeft,
-                                        padding: EdgeInsets.only(
-                                            left: 15, top: 5),
-                                        child: _customz.AllT.length == 0 ? Text(
-                                            'You can add more toppings',
-                                            style: TextStyle(
-                                              fontSize: 13,
-                                              fontWeight: FontWeight.w400,
-                                            )
-                                        ) :
-                                        Text('$AllTstr',
-                                          style: TextStyle(
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.w400,
-                                            color: Colors.blue.shade800,
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                    ],
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(right: 10),
-                                    child: Icon(toppingsShow ? Icons
-                                        .keyboard_arrow_up : Icons
-                                        .keyboard_arrow_down,
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                            !toppingsShow?SizedBox(
-                              height: 5,
-                            ):Column(
+                      ),
+                      Container(
+                          alignment: Alignment.topLeft,
+                          padding: EdgeInsets.fromLTRB(5, 0, 5, 20),
+                          child: Card(
+                            elevation: 5,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
                               children: <Widget>[
                                 Container(
-                                  alignment: Alignment.topLeft,
-                                  margin: EdgeInsets.only(left: 15, top: 15),
+                                  padding: EdgeInsets.fromLTRB(10, 10, 0, 0),
                                   child: Text(
-                                    'Add Veg Toppings @ ₹ $VT.00 each',
+                                    _customz.name,
                                     style: TextStyle(
-                                      fontWeight: FontWeight.w500,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w400,
                                     ),
                                   ),
                                 ),
+                                Container(
+                                    padding: EdgeInsets.fromLTRB(10, 10, 0, 0),
+                                    child: Text(
+                                      _customz.desc,
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w300),
+                                    )),
                                 SizedBox(
-                                  height: 15,
+                                  height: 40,
                                 ),
                                 Container(
-                                  height: 130,
+                                  padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
+                                  child: Text(
+                                    'Select Size',
+                                    style: TextStyle(
+                                        color: Colors.grey.shade600),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Container(
+                                    padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
+                                    child: SingleChildScrollView(
+                                      scrollDirection: Axis.horizontal,
+                                      child: Row(
+                                        children: <Widget>[
+                                          FlatButton(
+                                            highlightColor: Colors.blue.shade200
+                                                .withOpacity(0.3),
+                                            onPressed: () {
+                                              changeSize(0);
+                                            },
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius
+                                                    .circular(
+                                                    4),
+                                                side: BorderSide(
+                                                  color: smallC,
+                                                )
+                                            ),
+                                            padding: EdgeInsets.fromLTRB(
+                                                10, 10, 10, 10),
+                                            color: Colors.grey.shade100,
+                                            child: Row(
+                                              children: <Widget>[
+                                                Icon(Icons.local_pizza,
+                                                  color: smallCF,
+                                                  size: 30,
+                                                ),
+                                                Column(
+                                                  crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                                  children: <Widget>[
+                                                    Container(
+                                                      margin: EdgeInsets.only(
+                                                          left: 5),
+                                                      child: Text(
+                                                        Customise.sizes[0],
+                                                        style: TextStyle(
+                                                            fontWeight: FontWeight
+                                                                .w600,
+                                                            color: smallCF
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Container(
+                                                      margin: EdgeInsets.only(
+                                                          left: 5, top: 1),
+                                                      child: Text(
+                                                        'Serves 1',
+                                                        style: TextStyle(
+                                                            fontWeight: FontWeight
+                                                                .w300,
+                                                            color: smallCF,
+                                                            fontSize: 12
+                                                        ),
+                                                      ),
+                                                    )
+                                                  ],
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: 10,
+                                          ),
+                                          FlatButton(
+                                            highlightColor: Colors.blue.shade200
+                                                .withOpacity(0.3),
+                                            onPressed: () {
+                                              changeSize(1);
+                                            },
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius
+                                                    .circular(
+                                                    4),
+                                                side: BorderSide(
+                                                  color: mediumC,
+                                                )
+                                            ),
+                                            padding: EdgeInsets.fromLTRB(
+                                                10, 10, 10, 10),
+                                            color: Colors.grey.shade100,
+                                            child: Row(
+                                              children: <Widget>[
+                                                Icon(Icons.local_pizza,
+                                                  color: mediumCF,
+                                                  size: 30,
+                                                ),
+                                                Column(
+                                                  crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                                  children: <Widget>[
+                                                    Container(
+                                                      margin: EdgeInsets.only(
+                                                          left: 5),
+                                                      child: Text(
+                                                        Customise.sizes[1],
+                                                        style: TextStyle(
+                                                            fontWeight: FontWeight
+                                                                .w600,
+                                                            color: mediumCF
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Container(
+                                                      margin: EdgeInsets.only(
+                                                          left: 5, top: 1),
+                                                      child: Text(
+                                                        'Serves 2',
+                                                        style: TextStyle(
+                                                            fontWeight: FontWeight
+                                                                .w300,
+                                                            color: mediumCF,
+                                                            fontSize: 12
+                                                        ),
+                                                      ),
+                                                    )
+                                                  ],
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: 10,
+                                          ),
+                                          FlatButton(
+                                            highlightColor: Colors.blue.shade200
+                                                .withOpacity(0.3),
+                                            onPressed: () {
+                                              changeSize(2);
+                                            },
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius
+                                                    .circular(
+                                                    4),
+                                                side: BorderSide(
+                                                  color: largeC,
+                                                )
+                                            ),
+                                            padding: EdgeInsets.fromLTRB(
+                                                10, 10, 10, 10),
+                                            color: Colors.grey.shade100,
+                                            child: Row(
+                                              children: <Widget>[
+                                                Icon(Icons.local_pizza,
+                                                  color: largeCF,
+                                                  size: 30,
+                                                ),
+                                                Column(
+                                                  crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                                  children: <Widget>[
+                                                    Container(
+                                                      margin: EdgeInsets.only(
+                                                          left: 5),
+                                                      child: Text(
+                                                        Customise.sizes[2],
+                                                        style: TextStyle(
+                                                            fontWeight: FontWeight
+                                                                .w600,
+                                                            color: largeCF
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Container(
+                                                      margin: EdgeInsets.only(
+                                                          left: 5, top: 1),
+                                                      child: Text(
+                                                        'Serves 4',
+                                                        style: TextStyle(
+                                                            fontWeight: FontWeight
+                                                                .w300,
+                                                            color: largeCF,
+                                                            fontSize: 12
+                                                        ),
+                                                      ),
+                                                    )
+                                                  ],
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    )),
+                                SizedBox(
+                                  height: 40,
+                                ),
+                                Container(
+                                  padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
+                                  child: Text(
+                                    'Select Crust',
+                                    style: TextStyle(
+                                        color: Colors.grey.shade600),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Container(
+                                  padding: EdgeInsets.only(left: 5, right: 5),
+                                  height: 55,
                                   child: ListView.builder(
                                     scrollDirection: Axis.horizontal,
                                     itemBuilder: (context, position) {
-                                      return cardBuildV(context, position);
+                                      return crustBuild(context, position);
                                     },
-                                    itemCount: Customise.toppingsV.length,
+                                    itemCount: 5,
                                   ),
                                 ),
-                                SizedBox(height: 15,),
-                                Container(
-                                  alignment: Alignment.topLeft,
-                                  margin: EdgeInsets.only(left: 15, top: 15),
-                                  child: Text(
-                                    'Add Non-Veg Toppings @ ₹ $NVT.00 each',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w500,
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    cheeseAdd(!_customz.cheese);
+                                  },
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: Colors.grey.shade200,
+                                      borderRadius: BorderRadius.circular(4),
+                                    ),
+                                    margin: EdgeInsets.fromLTRB(10, 0, 10, 10),
+                                    child: Row(
+                                      children: <Widget>[
+                                        Checkbox(
+                                            value: _customz.cheese,
+                                            onChanged: (bool value) {
+                                              cheeseAdd(value);
+                                            }
+                                        ),
+                                        Text(
+                                          'Add Extra Cheese @ ₹$cheesePrice',
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        )
+                                      ],
                                     ),
                                   ),
-                                ),
-                                SizedBox(
-                                  height: 15,
-                                ),
-                                Container(
-                                  height: 130,
-                                  child: ListView.builder(
-                                    scrollDirection: Axis.horizontal,
-                                    itemBuilder: (context, position) {
-                                      return cardBuildNV(context, position);
-                                    },
-                                    itemCount: Customise.toppingsNV.length,
-                                  ),
-                                ),
-                                SizedBox(height: 10,)
+                                )
                               ],
-                            )
-                          ],
-                        )),
+                            ),
+                          )),
+                      Container(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Container(
+                                child: Text(
+                                  'Toppings',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18),
+                                ),
+                                margin: EdgeInsets.only(left: 10),
+                              ),
+                              FlatButton(
+                                onPressed: () {
+                                  setState(() {
+                                    _customz.toppingV.forEach((String str,
+                                        bool val) {
+                                      if (val == true) {
+                                        _customz.toppingV.update(
+                                            str, (bool val) {
+                                          return false;
+                                        });
+                                        _customz.price -= VT;
+                                      }
+                                    });
+                                    _customz.toppingNV.forEach((String str,
+                                        bool val) {
+                                      if (val == true) {
+                                        _customz.toppingNV.update(
+                                            str, (bool val) {
+                                          return false;
+                                        });
+                                        _customz.price -= NVT;
+                                      }
+                                    });
+                                    _customz.AllT = [];
+                                  });
+                                },
+                                child: Text(
+                                  'RESET',
+                                  style: TextStyle(
+                                    color: Colors.blue.shade800,
+                                  ),
+                                ),
+                              )
+                            ],
+                          )),
+                      Container(
+                        alignment: Alignment.topLeft,
+                        padding: EdgeInsets.fromLTRB(5, 0, 5, 10),
+                        child: Card(
+                            elevation: 5,
+                            child: Column(
+                              children: <Widget>[
+                                FlatButton(
+                                  highlightColor: Colors.transparent,
+                                  splashColor: Colors.transparent,
+                                  padding: EdgeInsets.only(left: 0),
+                                  onPressed: () {
+                                    setState(() {
+                                      if (toppingsShow == false) {
+                                        toppingsShow = true;
+                                        Future.delayed(
+                                            Duration(milliseconds: 50), () {
+                                          _scrollController.animateTo(
+                                              _scrollController.position
+                                                  .maxScrollExtent,
+                                              duration: Duration(seconds: 1),
+                                              curve: Curves.fastOutSlowIn);
+                                        });
+                                      }
+                                      else
+                                        toppingsShow = false;
+                                    });
+                                  },
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment
+                                        .spaceBetween,
+                                    children: <Widget>[
+                                      Column(
+                                        crossAxisAlignment: CrossAxisAlignment
+                                            .start,
+                                        children: <Widget>[
+                                          Container(
+                                              alignment: Alignment.topLeft,
+                                              padding: EdgeInsets.only(
+                                                  left: 15, top: 15),
+                                              child: Text('Add Toppings',
+                                                  style: TextStyle(
+                                                    fontSize: 18,
+                                                    fontWeight: FontWeight.bold,
+                                                  ))
+                                          ),
+                                          Container(
+                                            width: MediaQuery
+                                                .of(context)
+                                                .size
+                                                .width * 0.8,
+                                            alignment: Alignment.topLeft,
+                                            padding: EdgeInsets.only(
+                                                left: 15, top: 5),
+                                            child: _customz.AllT.length == 0
+                                                ? Text(
+                                                'You can add more toppings',
+                                                style: TextStyle(
+                                                  fontSize: 13,
+                                                  fontWeight: FontWeight.w400,
+                                                )
+                                            )
+                                                :
+                                            Text('$AllTstr',
+                                              style: TextStyle(
+                                                fontSize: 13,
+                                                fontWeight: FontWeight.w400,
+                                                color: Colors.blue.shade800,
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: 10,
+                                          ),
+                                        ],
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.only(right: 10),
+                                        child: Icon(toppingsShow ? Icons
+                                            .keyboard_arrow_up : Icons
+                                            .keyboard_arrow_down,
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                !toppingsShow ? SizedBox(
+                                  height: 5,
+                                ) : Column(
+                                  children: <Widget>[
+                                    Container(
+                                      alignment: Alignment.topLeft,
+                                      margin: EdgeInsets.only(
+                                          left: 15, top: 15),
+                                      child: Text(
+                                        'Add Veg Toppings @ ₹ $VT.00 each',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 15,
+                                    ),
+                                    Container(
+                                      height: 130,
+                                      child: ListView.builder(
+                                        scrollDirection: Axis.horizontal,
+                                        itemBuilder: (context, position) {
+                                          return cardBuildV(context, position);
+                                        },
+                                        itemCount: Customise.toppingsV.length,
+                                      ),
+                                    ),
+                                    SizedBox(height: 15,),
+                                    Container(
+                                      alignment: Alignment.topLeft,
+                                      margin: EdgeInsets.only(
+                                          left: 15, top: 15),
+                                      child: Text(
+                                        'Add Non-Veg Toppings @ ₹ $NVT.00 each',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 15,
+                                    ),
+                                    Container(
+                                      height: 130,
+                                      child: ListView.builder(
+                                        scrollDirection: Axis.horizontal,
+                                        itemBuilder: (context, position) {
+                                          return cardBuildNV(context, position);
+                                        },
+                                        itemCount: Customise.toppingsNV.length,
+                                      ),
+                                    ),
+                                    SizedBox(height: 10,)
+                                  ],
+                                )
+                              ],
+                            )),
+                      ),
+                      SizedBox(height: 60,)
+                    ],
                   ),
-                  SizedBox(height: 60,)
-                ],
+                ),
               ),
-            ),
+              SafeArea(
+                child: Opacity(
+                  opacity: opac,
+                  child: Container(
+                    color: Colors.blue.shade800,
+                    child: ListTile(
+                      leading: Icon(Icons.arrow_back,
+                        color: Colors.white,
+                        size: 30,
+                      ),
+                      trailing: Icon(Icons.flag,
+                        color: Colors.white,
+                        size: 30,
+                      ),
+                      title: Text('Customise',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500,
+                        ),),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+
           ),
           bottomSheet: Container(
             color: Colors.blue.shade800,
@@ -1036,13 +1100,6 @@ class _Customize extends State<Customize> {
                           ? Colors.blue.withOpacity(0.15)
                           : Colors.transparent,
                     )
-//                  Image(
-//                    height: 100,
-//                    width: 100,
-//                    image: AssetImage(Customise.toppingsPath.elementAt(position),
-//
-//                    ),
-//                  ),
                 ),
                 Positioned(
                   right: 0,
@@ -1492,5 +1549,4 @@ class _Customize extends State<Customize> {
         break;
     }
   }
-
 }
